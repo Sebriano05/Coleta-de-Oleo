@@ -76,5 +76,4 @@ Desenvolvido como atividade prática do curso da Uniara, aplicando conceitos de 
 
 ## 👨‍💻 Autores
 
-**Anthony Oliveira Carvalho**
-**Nathan Lazaro Sebriano**
+**Anthony Oliveira Carvalho & Nathan Lazaro Sebriano**
