@@ -114,7 +114,7 @@ int main() {
         break;
 
     case 2:
-        char search[100]; float totalPerUser = 0.0;
+        char search[100]; float totalPerRegister = 0.0;
         registerFile = fopen("RegistroDoacao.txt", "a+");
         printf("\nRegistro de doacao:\n");
         printf("Buscar doador (Nome ou CPF): ");
@@ -132,13 +132,13 @@ int main() {
         printf("Informe a capacidade da garrafa (em litros): ");
         scanf("%f", &reg.liters);
         ClearBuffer();
-        totalPerUser = reg.liters * reg.quantity;
-        printf("Total doado neste registro: %.2f litros\n", totalPerUser);
+        totalPerRegister = reg.liters * reg.quantity;
+        printf("Total doado neste registro: %.2f litros\n", totalPerRegister);
         fprintf(registerFile, "Doador: %s\n"
                          "Quantidade de garrafas: %u\n"
                          "Capacidade da(s) garrafa(s) doada(s): %.2f litros\n"
                          "Total doado neste registro: %.2f litros\n",
-                        cad.name, reg.quantity, reg.liters, totalPerUser);
+                        cad.name, reg.quantity, reg.liters, totalPerRegister);
         
         DateTimeCadaster(currentDate, sizeof(currentDate));
         fprintf(registerFile, "Doação realizada em: %s\n\n", currentDate);
