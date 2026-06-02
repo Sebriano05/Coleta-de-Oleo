@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <locale.h>
 
 typedef struct {
     char name[100], cpf[15], phone[20];
@@ -59,8 +60,9 @@ int searchDonor(Cadaster *cad, char search[]) {
 }
 
 int main() {
+    setlocale(LC_ALL, "Portuguese");
 
-    FILE *cadasterFile, *registerFile, *reportFile, *totalFile;
+    FILE *cadasterFile, *registerFile, *reportFilePerUser, *reportFilePerDay, *totalFile;
     cadasterFile = fopen("CadastroDoador.txt", "a");
     registerFile = fopen("RegistroDoacao.txt", "a");
     Cadaster cad;
@@ -146,9 +148,54 @@ int main() {
         break;
 
     case 3:
-        reportFile = fopen("relatorio.txt", "r");
-        reportFile = registerFile;
-        printf("\nRelatorios!\n");
+        printf("\n===== Relatorios =====\n");
+        printf("1 - Relatorio por usuario.\n");
+        printf("2 - Relatorio por dia.\n");
+        printf("Digite a opção desejada: ");
+        scanf("%d", &option);
+        ClearBuffer();
+
+        switch(option){
+            case 1:
+                registerFile = fopen("RegistroDoacao.txt", "r");
+                if (registerFile == NULL) {
+                    printf("Erro ao abrir o arquivo de registro.\n");
+                    return 1;
+                }
+
+                fseek(registerFile, 0, SEEK_END);
+                long tamanho = ftell(registerFile);
+                rewind(registerFile);
+
+                char *content = (char *)malloc(tamanho + 1);
+                if (content == NULL) {
+                    printf("Erro ao alocar memoria.\n");
+                    fclose(registerFile);
+                    return 1;
+                }
+                
+                 fread(content, sizeof(char), tamanho, registerFile);
+                    content[tamanho] = '\0'; 
+
+                    printf("Conteúdo completo do arquivo: %s", content);
+                    free(content);
+                    fclose(registerFile);
+
+            break;
+
+            case 2:
+                 registerFile = fopen("RegistroDoacao.txt", "r");
+                if (registerFile == NULL) {
+                    printf("Erro ao abrir o arquivo de registro.\n");
+                    return 1;
+                }
+
+            break;
+
+            default:
+            printf("Opção inválida.");
+            break;
+        }
         break;
 
     case 4:
