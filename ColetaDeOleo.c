@@ -86,6 +86,8 @@ int TotalDonatedPerUser(Cadaster *cad, char searchUser[]) {
                 }
             }
         }
+    } else {
+        return 0;
     }
 
     fclose(reportFilePerUser);
@@ -176,14 +178,14 @@ int main() {
         ClearBuffer();
         totalPerRegister = reg.liters * reg.quantity;
         printf("Total doado neste registro: %.2f litros\n", totalPerRegister);
+        DateTime(currentDate, sizeof(currentDate));
         fprintf(registerFile, "Doador: %s\n"
                               "Quantidade de garrafas: %u\n"
                               "Capacidade da(s) garrafa(s) doada(s): %.2f litros\n"
-                              "Total doado neste registro: %.2f litros\n",
-                cad.name, reg.quantity, reg.liters, totalPerRegister);
+                              "Total doado neste registro: %.2f litros\n"
+                              "Doacao realizada em: %s\n\n",
+                            cad.name, reg.quantity, reg.liters, totalPerRegister, currentDate);
 
-        DateTime(currentDate, sizeof(currentDate));
-        fprintf(registerFile, "Doação realizada em: %s\n\n", currentDate);
         fclose(registerFile);
         break;
 
@@ -197,7 +199,7 @@ int main() {
 
         switch (option) {
         case 1:
-            char searchUser[100], currentDate[20];
+            char searchUser[100];
             reportFilePerUser = fopen("RelatorioPorUsuario.txt", "a+");
             DateTime(currentDate, sizeof(currentDate));
 
@@ -218,12 +220,17 @@ int main() {
             break;
 
         case 2:
-            registerFile = fopen("RegistroDoacao.txt", "r");
+            reportFilePerDay = fopen("RelatorioPorDia.txt", "r");
             if (registerFile == NULL) {
                 printf("Erro ao abrir o arquivo de registro.\n");
                 return 1;
             }
+            char searchDay[11];
+            printf("Digite a data para o relatorio (dd/mm/aaaa): ");
+            fgets(searchDay, sizeof(searchDay), stdin); 
+            searchDay[strcspn(searchDay, "\n")] = '\0';
 
+            fclose(reportFilePerDay);
             break;
 
         default:
