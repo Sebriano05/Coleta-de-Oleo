@@ -191,8 +191,6 @@ int main() {
     setlocale(LC_ALL, "Portuguese");
 
     FILE *cadasterFile, *registerFile, *reportFilePerUser, *reportFilePerDay, *totalFile;
-    cadasterFile = fopen("CadastroDoador.txt", "a");
-    registerFile = fopen("RegistroDoacao.txt", "a");
     Cadaster cad;
     Register reg;
     int option = 0;
@@ -209,7 +207,6 @@ int main() {
         scanf("%d", &option);
         ClearBuffer();
     }
-    fclose(cadasterFile);
 
     switch (option) {
     case 1:
