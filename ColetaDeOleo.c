@@ -240,6 +240,7 @@ int main() {
         fprintf(cadasterFile, "Momento do cadastro: %s\n"
                               "------------------------------\n"
                                 , currentDate); 
+                                
         fclose(cadasterFile); 
         printf("Cadastro realizado com sucesso!\n");
         break;
