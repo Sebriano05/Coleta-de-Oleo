@@ -210,7 +210,7 @@ int main() {
 
     switch (option) {
     case 1:
-        cadasterFile = fopen("CadastroDoador.txt", "a+"); 
+        cadasterFile = fopen("CadastroDoador.txt", "a+");
         if (cadasterFile == NULL) {
             printf("Erro ao abrir o arquivo.\n");
             return 1;
@@ -219,15 +219,15 @@ int main() {
 
         printf("Insira seu nome completo: ");
         fgets(cad.name, 100, stdin);
-        cad.name[strcspn(cad.name, "\n")] = '\0'; 
+        cad.name[strcspn(cad.name, "\n")] = '\0';
 
         printf("Informe seu cpf: ");
         fgets(cad.cpf, 15, stdin);
-        cad.cpf[strcspn(cad.cpf, "\n")] = '\0'; 
+        cad.cpf[strcspn(cad.cpf, "\n")] = '\0';
         ClearBuffer();
 
         printf("Telefone de registro: ");
-        fgets(cad.phone, 20, stdin);  
+        fgets(cad.phone, 20, stdin);
         cad.phone[strcspn(cad.phone, "\n")] = '\0';
 
         fprintf(cadasterFile, "===== Cadastro do doador =====\n"
@@ -235,39 +235,38 @@ int main() {
                               "CPF: %s\n"
                               "Telefone: %s\n",
                 cad.name, cad.cpf, cad.phone);
-        char currentDate[20]; 
-        DateTime(currentDate, sizeof(currentDate)); 
+        char currentDate[20];
+        DateTime(currentDate, sizeof(currentDate));
         fprintf(cadasterFile, "Momento do cadastro: %s\n"
                               "------------------------------\n"
-                                , currentDate); 
-                                
-        fclose(cadasterFile); 
+                                , currentDate);
+        fclose(cadasterFile);
         printf("Cadastro realizado com sucesso!\n");
         break;
 
     case 2:
-        char search[100]; 
-        float totalPerRegister = 0.0; 
-        registerFile = fopen("RegistroDoacao.txt", "a+"); 
+        char search[100];
+        float totalPerRegister = 0.0;
+        registerFile = fopen("RegistroDoacao.txt", "a+");
         printf("\nRegistro de doacao:\n");
-        printf("Buscar doador (Nome ou CPF): "); 
+        printf("Buscar doador (Nome ou CPF): ");
         fgets(search, 100, stdin);
-        search[strcspn(search, "\n")] = '\0'; 
-        if (!SearchDonor(&cad, search)){ 
+        search[strcspn(search, "\n")] = '\0';
+        if (!SearchDonor(&cad, search)){
             printf("Doador nao encontrado. Por favor, cadastre-se primeiro.\n");
             break;
         }
         printf("Doador encontrado!\n");
 
-        printf("Quantidade de garrafas doadas: "); 
+        printf("Quantidade de garrafas doadas: ");
         scanf("%u", &reg.quantity);
         ClearBuffer();
         printf("Informe a capacidade da garrafa (em litros): ");
         scanf("%f", &reg.liters);
-        ClearBuffer(); 
+        ClearBuffer();
         totalPerRegister = reg.liters * reg.quantity;
         printf("Total doado neste registro: %.2f litros\n", totalPerRegister);
-        DateTime(currentDate, sizeof(currentDate)); 
+        DateTime(currentDate, sizeof(currentDate));
         fprintf(registerFile, "===== Registro de doação =====\n"
                               "Doador: %s\n"
                               "Quantidade de garrafas: %u\n"
@@ -290,22 +289,20 @@ int main() {
 
         switch (option) {
         case 1:
-            char searchUser[100]; 
-            float totalLiters; 
-            unsigned int totalBottles; 
+            char searchUser[100];
+            float totalLiters;
+            unsigned int totalBottles;
             reportFilePerUser = fopen("RelatorioPorUsuario.txt", "a+");
             DateTime(currentDate, sizeof(currentDate));
 
-            printf("Digite o nome do doador: "); 
+            printf("Digite o nome do doador: ");
             fgets(searchUser, sizeof(searchUser), stdin);
             searchUser[strcspn(searchUser, "\n")] = '\0';
-            if (!TotalDonatedPerUser(&cad, searchUser, &totalBottles, &totalLiters)) { 
+            if (!TotalDonatedPerUser(&cad, searchUser, &totalBottles, &totalLiters)) {
                 puts("Erro ao gerar relatorio por usuario.");
                 printf("Certifique-se de que o doador foi cadastrado e que ha registros de doacoes para ele.\n");
                 break;
             }
-
-            printf("Relatorio gerado com sucesso!\n");
 
             fprintf(reportFilePerUser, "===== Relatório do usuário =====\n"
                                         "Doador: %s\n"
@@ -325,7 +322,7 @@ int main() {
                 printf("Erro ao abrir o arquivo de registro.\n");
                 return 1;
             }
-            char searchDay[11]; 
+            char searchDay[11];
             printf("Digite a data para o relatorio (dd/mm/aaaa): ");
             fgets(searchDay, sizeof(searchDay), stdin); 
             searchDay[strcspn(searchDay, "\n")] = '\0';
@@ -333,13 +330,6 @@ int main() {
                 puts("Erro ao gerar relatorio por dia.");
                 printf("Certifique-se de que ha registros de doacoes para a data informada.\n");
             }
-
-            printf("Relatorio gerado com sucesso!\n"
-                    "------------------------------\n"
-                    "Data: %s\n"
-                    "Total de garrafas doadas: %u\n"
-                    "Total de litros doados: %.2f\n",
-                    searchDay, totalBottles, totalLiters);
 
             fprintf(reportFilePerDay, "===== Relatório do dia =====\n"
                                       "Data: %s\n"
@@ -368,13 +358,6 @@ int main() {
             printf("Certifique-se de que ha registros de doacoes para calcular o total arrecadado.\n");
             break;
         }
-
-        printf("Total arrecadado calculado com sucesso!\n"
-               "Total de garrafas doadas: %u\n"
-               "Total de litros doados: %.2f\n"
-               "Relatorio gerado em: %s\n",
-                totalBottles, totalLiters, currentDate);
-
         fprintf(totalFile, "\n===== Total arrecadado =====\n"
                            "Total de garrafas doadas: %u\n"
                            "Total de litros doados: %.2f\n"
