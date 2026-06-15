@@ -1,0 +1,5 @@
+
+===== Total arrecadado =====
+Total de garrafas doadas: 30
+Total de litros doados: 62,50
+Relatorio gerado em: 14/06/2026 22:09:04
